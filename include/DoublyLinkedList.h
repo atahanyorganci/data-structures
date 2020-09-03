@@ -88,7 +88,7 @@ inline bool DoublyLinkedList<T>::insert(int index, T data)
     if (index < 0 || index > size)
         return false;
 
-    auto temp = new DoubleNode(data);
+    auto temp = new DoubleNode<T>(data);
     if (index == 0)
     {
         if (!isEmpty())
