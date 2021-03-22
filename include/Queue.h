@@ -2,10 +2,8 @@
 
 #include "Node.h"
 
-template <typename T>
-class Queue
-{
-public:
+template <typename T> class Queue {
+  public:
     Queue();
     Queue(const Queue<T> &queue);
     Queue<T> &operator=(const Queue<T> &queue);
@@ -16,25 +14,21 @@ public:
     bool dequeue(T &data);
     bool getFront(T &data) const;
 
-private:
+  private:
     Node<T> *start;
     Node<T> *end;
 };
 
-template <typename T>
-inline Queue<T>::Queue() : start(nullptr), end(nullptr)
-{
-}
+template <typename T> inline Queue<T>::Queue() : start(nullptr), end(nullptr) {}
 
 template <typename T>
-inline Queue<T>::Queue(const Queue<T> &queue) : start(queue.start), end(queue.end)
-{
+inline Queue<T>::Queue(const Queue<T> &queue)
+    : start(queue.start), end(queue.end) {
     if (start == nullptr || end == nullptr)
         return;
     start = new Node<T>(start->data);
     auto current = start;
-    for (auto other = start->next; other != nullptr; other = other->next)
-    {
+    for (auto other = start->next; other != nullptr; other = other->next) {
         current->next = new Node<T>(other->data);
         current = current->next;
     }
@@ -42,8 +36,7 @@ inline Queue<T>::Queue(const Queue<T> &queue) : start(queue.start), end(queue.en
 }
 
 template <typename T>
-inline Queue<T> &Queue<T>::operator=(const Queue<T> &queue)
-{
+inline Queue<T> &Queue<T>::operator=(const Queue<T> &queue) {
     if (this == &queue)
         return *this;
     while (!isEmpty())
@@ -52,8 +45,8 @@ inline Queue<T> &Queue<T>::operator=(const Queue<T> &queue)
         return *this;
     start = new Node<T>(queue.start->data);
     auto current = start;
-    for (auto other = queue.start->next; other != nullptr; other = other->next)
-    {
+    for (auto other = queue.start->next; other != nullptr;
+         other = other->next) {
         current->next = new Node<T>(other->data);
         current = current->next;
     }
@@ -61,25 +54,18 @@ inline Queue<T> &Queue<T>::operator=(const Queue<T> &queue)
     return *this;
 }
 
-template <typename T>
-inline Queue<T>::~Queue()
-{
+template <typename T> inline Queue<T>::~Queue() {
     while (!isEmpty())
         dequeue();
 }
 
-template <typename T>
-inline bool Queue<T>::isEmpty() const
-{
+template <typename T> inline bool Queue<T>::isEmpty() const {
     return start == nullptr;
 }
 
-template <typename T>
-inline bool Queue<T>::enqueue(T data)
-{
+template <typename T> inline bool Queue<T>::enqueue(T data) {
     auto temp = new Node<T>(data);
-    if (isEmpty())
-    {
+    if (isEmpty()) {
         start = temp;
         end = temp;
     } else {
@@ -89,9 +75,7 @@ inline bool Queue<T>::enqueue(T data)
     return true;
 }
 
-template <typename T>
-inline bool Queue<T>::dequeue()
-{
+template <typename T> inline bool Queue<T>::dequeue() {
     if (isEmpty())
         return false;
     if (start == end)
@@ -102,16 +86,12 @@ inline bool Queue<T>::dequeue()
     return true;
 }
 
-template <typename T>
-inline bool Queue<T>::dequeue(T &data)
-{
+template <typename T> inline bool Queue<T>::dequeue(T &data) {
     getFront(data);
     return dequeue();
 }
 
-template <typename T>
-inline bool Queue<T>::getFront(T &data) const
-{
+template <typename T> inline bool Queue<T>::getFront(T &data) const {
     if (isEmpty())
         return false;
     data = start->data;

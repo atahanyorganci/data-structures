@@ -1,17 +1,15 @@
 #pragma once
 
-#include <ostream>
-#include <iostream>
 #include "DoubleNode.h"
+#include <iostream>
+#include <ostream>
 
-template <typename T>
-class DoublyLinkedList
-{
-private:
+template <typename T> class DoublyLinkedList {
+  private:
     DoubleNode<T> *head;
     int size;
 
-public:
+  public:
     DoublyLinkedList();
     DoublyLinkedList(const DoublyLinkedList<T> &list);
     DoublyLinkedList<T> &operator=(const DoublyLinkedList<T> &list);
@@ -23,81 +21,68 @@ public:
     bool getItem(int index, T &data) const;
 
     template <typename U>
-    friend std::ostream &operator<<(std::ostream &out, const DoublyLinkedList<U> &list);
+    friend std::ostream &operator<<(std::ostream &out,
+                                    const DoublyLinkedList<U> &list);
 
-private:
+  private:
     int translate(int index) const;
 };
 
 template <typename T>
-inline DoublyLinkedList<T>::DoublyLinkedList() : head(nullptr), size(0)
-{
-}
+inline DoublyLinkedList<T>::DoublyLinkedList() : head(nullptr), size(0) {}
 
 template <typename T>
-inline DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &list) : head(nullptr), size(0)
-{
+inline DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &list)
+    : head(nullptr), size(0) {
     auto current = list.head;
     auto length = list.getLength();
-    for (int i = 1; i <= length; i++)
-    {
+    for (int i = 1; i <= length; i++) {
         insert(i, current->data);
         current = current->next;
     }
 }
 
 template <typename T>
-inline DoublyLinkedList<T> &DoublyLinkedList<T>::operator=(const DoublyLinkedList<T> &list)
-{
+inline DoublyLinkedList<T> &
+DoublyLinkedList<T>::operator=(const DoublyLinkedList<T> &list) {
     if (this == &list)
         return *this;
     while (!isEmpty())
         remove(1);
     auto current = list.head;
-    for (int i = 1; i <= list.getLength(); i++)
-    {
+    for (int i = 1; i <= list.getLength(); i++) {
         insert(i, current->data);
         current = current->next;
     }
     return *this;
 }
 
-template <typename T>
-inline DoublyLinkedList<T>::~DoublyLinkedList()
-{
+template <typename T> inline DoublyLinkedList<T>::~DoublyLinkedList() {
     while (!isEmpty())
         remove(1);
 }
 
-template <typename T>
-inline bool DoublyLinkedList<T>::isEmpty() const
-{
+template <typename T> inline bool DoublyLinkedList<T>::isEmpty() const {
     return size == 0;
 }
 
-template <typename T>
-inline int DoublyLinkedList<T>::getLength() const
-{
+template <typename T> inline int DoublyLinkedList<T>::getLength() const {
     return size;
 }
 
 template <typename T>
-inline bool DoublyLinkedList<T>::insert(int index, T data)
-{
+inline bool DoublyLinkedList<T>::insert(int index, T data) {
     index = translate(index);
     if (index < 0 || index > size)
         return false;
 
     auto temp = new DoubleNode<T>(data);
-    if (index == 0)
-    {
+    if (index == 0) {
         if (!isEmpty())
             head->prev = temp;
         temp->next = head;
         head = temp;
-    }
-    else
-    {
+    } else {
         auto current = head;
         for (int i = 0; i < index - 1; i++)
             current = current->next;
@@ -111,25 +96,20 @@ inline bool DoublyLinkedList<T>::insert(int index, T data)
     return true;
 }
 
-template <typename T>
-inline bool DoublyLinkedList<T>::remove(int index)
-{
+template <typename T> inline bool DoublyLinkedList<T>::remove(int index) {
     index = translate(index);
     if (index < 0 || index >= size)
         return false;
 
     size--;
-    if (index == 0)
-    {
+    if (index == 0) {
         auto current = head;
         if (!isEmpty())
             head = head->next;
         else
             head = nullptr;
         delete current;
-    }
-    else
-    {
+    } else {
         auto current = head;
         for (int i = 0; i < index; i++)
             current = current->next;
@@ -142,8 +122,7 @@ inline bool DoublyLinkedList<T>::remove(int index)
 }
 
 template <typename T>
-inline bool DoublyLinkedList<T>::getItem(int index, T &data) const
-{
+inline bool DoublyLinkedList<T>::getItem(int index, T &data) const {
     index = translate(index);
     if (index < 0 || index >= size)
         return false;
@@ -156,14 +135,12 @@ inline bool DoublyLinkedList<T>::getItem(int index, T &data) const
 }
 
 template <typename T>
-inline std::ostream &operator<<(std::ostream &out, const DoublyLinkedList<T> &list)
-{
+inline std::ostream &operator<<(std::ostream &out,
+                                const DoublyLinkedList<T> &list) {
     out << "DoublyLinkedList(data=[";
-    if (!list.isEmpty())
-    {
+    if (!list.isEmpty()) {
         auto i = list.head;
-        while (i->next != nullptr)
-        {
+        while (i->next != nullptr) {
             out << i->data << ", ";
             i = i->next;
         }
@@ -173,8 +150,6 @@ inline std::ostream &operator<<(std::ostream &out, const DoublyLinkedList<T> &li
     return out;
 }
 
-template <typename T>
-int DoublyLinkedList<T>::translate(int index) const
-{
+template <typename T> int DoublyLinkedList<T>::translate(int index) const {
     return index - 1;
 }

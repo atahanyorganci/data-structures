@@ -1,16 +1,14 @@
 #pragma once
 
-#include <ostream>
 #include "Node.h"
+#include <ostream>
 
-template <typename T>
-class LinkedList
-{
-private:
+template <typename T> class LinkedList {
+  private:
     Node<T> *head;
     int size;
 
-public:
+  public:
     LinkedList();
     LinkedList(const LinkedList<T> &list);
     LinkedList<T> &operator=(const LinkedList<T> &list);
@@ -22,38 +20,34 @@ public:
     bool getItem(int index, T &data) const;
 
     template <typename U>
-    friend std::ostream &operator<<(std::ostream &out, const LinkedList<U> &list);
+    friend std::ostream &operator<<(std::ostream &out,
+                                    const LinkedList<U> &list);
 
-private:
+  private:
     int translate(int index) const;
 };
 
 template <typename T>
-inline LinkedList<T>::LinkedList() : head(nullptr), size(0)
-{
-}
+inline LinkedList<T>::LinkedList() : head(nullptr), size(0) {}
 
 template <typename T>
-inline LinkedList<T>::LinkedList(const LinkedList<T> &list) : head(nullptr), size(0)
-{
+inline LinkedList<T>::LinkedList(const LinkedList<T> &list)
+    : head(nullptr), size(0) {
     auto current = list.head;
     auto length = list.getLength();
-    for (int i = 1; i <= length; i++)
-    {
+    for (int i = 1; i <= length; i++) {
         insert(i, current->data);
         current = current->next;
     }
 }
 
 template <typename T>
-inline LinkedList<T> &LinkedList<T>::operator=(const LinkedList<T> &list)
-{
+inline LinkedList<T> &LinkedList<T>::operator=(const LinkedList<T> &list) {
     if (this != &list)
         return *this;
     while (!isEmpty())
         remove(1);
-    for (int i = 1; i <= list.getLength(); i++)
-    {
+    for (int i = 1; i <= list.getLength(); i++) {
         T item;
         list.getItem(i, item);
         insert(i, item);
@@ -61,28 +55,20 @@ inline LinkedList<T> &LinkedList<T>::operator=(const LinkedList<T> &list)
     return *this;
 }
 
-template <typename T>
-inline LinkedList<T>::~LinkedList()
-{
+template <typename T> inline LinkedList<T>::~LinkedList() {
     while (!isEmpty())
         remove(1);
 }
 
-template <typename T>
-inline bool LinkedList<T>::isEmpty() const
-{
+template <typename T> inline bool LinkedList<T>::isEmpty() const {
     return size == 0;
 }
 
-template <typename T>
-inline int LinkedList<T>::getLength() const
-{
+template <typename T> inline int LinkedList<T>::getLength() const {
     return size;
 }
 
-template <typename T>
-inline bool LinkedList<T>::insert(int index, T data)
-{
+template <typename T> inline bool LinkedList<T>::insert(int index, T data) {
     index = translate(index);
     if (index < 0 || index > size)
         return false;
@@ -90,47 +76,37 @@ inline bool LinkedList<T>::insert(int index, T data)
     auto node = new Node<T>(data);
     size++;
 
-    if (index != 0)
-    {
+    if (index != 0) {
         auto current = head;
         Node<T> *previous = nullptr;
-        for (int i = 0; i < index; i++)
-        {
+        for (int i = 0; i < index; i++) {
             previous = current;
             current = current->next;
         }
         previous->next = node;
         node->next = current;
-    }
-    else
-    {
+    } else {
         node->next = head;
         head = node;
     }
     return true;
 }
 
-template <typename T>
-inline bool LinkedList<T>::remove(int index)
-{
+template <typename T> inline bool LinkedList<T>::remove(int index) {
     index = translate(index);
     if (index < 0 || index >= size)
         return false;
 
-    if (index != 0)
-    {
+    if (index != 0) {
         auto current = head;
         Node<T> *previous;
-        for (int i = 0; i < index; i++)
-        {
+        for (int i = 0; i < index; i++) {
             previous = current;
             current = current->next;
         }
         previous->next = current->next;
         delete current;
-    }
-    else
-    {
+    } else {
         auto temp = head;
         if (head != nullptr)
             head = head->next;
@@ -141,8 +117,7 @@ inline bool LinkedList<T>::remove(int index)
 }
 
 template <typename T>
-inline bool LinkedList<T>::getItem(int index, T &data) const
-{
+inline bool LinkedList<T>::getItem(int index, T &data) const {
     index = translate(index);
     if (index < 0 || index >= size)
         return false;
@@ -155,14 +130,11 @@ inline bool LinkedList<T>::getItem(int index, T &data) const
 }
 
 template <typename T>
-inline std::ostream &operator<<(std::ostream &out, const LinkedList<T> &list)
-{
+inline std::ostream &operator<<(std::ostream &out, const LinkedList<T> &list) {
     out << "LinkedList(data=[";
-    if (!list.isEmpty())
-    {
+    if (!list.isEmpty()) {
         auto i = list.head;
-        while (i->next != nullptr)
-        {
+        while (i->next != nullptr) {
             out << i->data << ", ";
             i = i->next;
         }
@@ -172,8 +144,6 @@ inline std::ostream &operator<<(std::ostream &out, const LinkedList<T> &list)
     return out;
 }
 
-template <typename T>
-int LinkedList<T>::translate(int index) const
-{
+template <typename T> int LinkedList<T>::translate(int index) const {
     return index - 1;
 }

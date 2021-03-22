@@ -1,8 +1,7 @@
 #include "CircularQueue.h"
 #include <catch2/catch.hpp>
 
-TEST_CASE("CircularQueue", "[CircularQueue]")
-{
+TEST_CASE("CircularQueue", "[CircularQueue]") {
     const int SIZE = 10;
     auto cq = CircularQueue<int>(SIZE);
     int data;
@@ -38,8 +37,7 @@ TEST_CASE("CircularQueue", "[CircularQueue]")
 
     SECTION("dequeue values") {
         UNSCOPED_INFO("Queuing data until queue is empty.");
-        for (int i = 0; i < SIZE; i++)
-        {
+        for (int i = 0; i < SIZE; i++) {
             CAPTURE(i);
             REQUIRE(cq.dequeue(data));
             REQUIRE(data == i);
