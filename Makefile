@@ -15,6 +15,7 @@ VENDOR := vendor
 
 # Source Files
 ALL     := $(wildcard $(SRC)/**/*.cpp $(SRC)/*.cpp)
+HDR     := $(wildcard $(INC)/**/*.h $(INC)/*.h)
 LIB_SRC := $(ALL)
 
 # Debug Configuration
@@ -39,9 +40,16 @@ T_EXE := ./$(DIST)/$(TEST)/test.out
 .PHONY: all
 all: lib
 
+.PHONY: lint
+lint: $(ALL) $(HDR)
+	@echo "CLANG-FORMAT: Formatting source files"
+	@clang-format -i $(ALL) $(HDR)
+
 .PHONY: test
 test: $(T_EXE)
 	$(T_EXE)
+
+texe: $(T_EXE)
 
 $(T_EXE): $(T_OBJ) $(DBG_LIB)
 	@echo "LINK: Creating release executable"
