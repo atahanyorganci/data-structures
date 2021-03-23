@@ -2,9 +2,8 @@
 
 #include <stddef.h>
 
-const int DEFAULT_SIZE = 20;
-
-template <typename T> class CircularQueue {
+template <typename T>
+class CircularQueue {
   public:
     CircularQueue();
     CircularQueue(const size_t size);
@@ -26,8 +25,8 @@ template <typename T> class CircularQueue {
 
 template <typename T>
 inline CircularQueue<T>::CircularQueue()
-    : size(DEFAULT_SIZE), start(0), end(0), count(0) {
-    data = new T[DEFAULT_SIZE];
+    : size(20), start(0), end(0), count(0) {
+    data = new T[20];
 }
 
 template <typename T>
@@ -63,20 +62,24 @@ CircularQueue<T>::operator=(const CircularQueue<T> &queue) {
     return *this;
 }
 
-template <typename T> inline CircularQueue<T>::~CircularQueue() {
+template <typename T>
+inline CircularQueue<T>::~CircularQueue() {
     if (data != nullptr)
         delete data;
 }
 
-template <typename T> inline bool CircularQueue<T>::isEmpty() const {
+template <typename T>
+inline bool CircularQueue<T>::isEmpty() const {
     return count == 0;
 }
 
-template <typename T> inline bool CircularQueue<T>::isFull() const {
+template <typename T>
+inline bool CircularQueue<T>::isFull() const {
     return count == static_cast<int>(size);
 }
 
-template <typename T> inline bool CircularQueue<T>::enqueue(T data) {
+template <typename T>
+inline bool CircularQueue<T>::enqueue(T data) {
     if (isFull())
         return false;
     this->data[end] = data;
@@ -85,7 +88,8 @@ template <typename T> inline bool CircularQueue<T>::enqueue(T data) {
     return true;
 }
 
-template <typename T> inline bool CircularQueue<T>::dequeue() {
+template <typename T>
+inline bool CircularQueue<T>::dequeue() {
     if (isEmpty())
         return false;
     start = (start + 1) % size;
@@ -93,12 +97,14 @@ template <typename T> inline bool CircularQueue<T>::dequeue() {
     return true;
 }
 
-template <typename T> inline bool CircularQueue<T>::dequeue(T &data) {
+template <typename T>
+inline bool CircularQueue<T>::dequeue(T &data) {
     getFront(data);
     return dequeue();
 }
 
-template <typename T> inline bool CircularQueue<T>::getFront(T &data) const {
+template <typename T>
+inline bool CircularQueue<T>::getFront(T &data) const {
     if (isEmpty())
         return false;
     data = this->data[start];

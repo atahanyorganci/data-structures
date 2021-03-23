@@ -1,9 +1,11 @@
 #pragma once
 
-#include "Node.h"
+#include "common/Node.h"
+
 #include <ostream>
 
-template <typename T> class LinkedList {
+template <typename T>
+class LinkedList {
   private:
     Node<T> *head;
     int size;
@@ -24,21 +26,36 @@ template <typename T> class LinkedList {
                                     const LinkedList<U> &list);
 
   private:
-    int translate(int index) const;
+    void copy(const LinkedList<T> &list);
 };
 
 template <typename T>
 inline LinkedList<T>::LinkedList() : head(nullptr), size(0) {}
 
 template <typename T>
+void LinkedList<T>::copy(const LinkedList<T> &list) {
+    // if list is empty bail
+    if (list.size == 0)
+        return;
+
+    // list at least one element
+    head = new Node<T>();
+    head->data = list.head->data;
+
+    Node<T> *current = head;
+    Node<T> *other = list.head;
+    while (other->next) {
+        other = other->next;
+        current->next = new Node<T>(other->data);
+        current = current->next;
+        size++;
+    }
+}
+
+template <typename T>
 inline LinkedList<T>::LinkedList(const LinkedList<T> &list)
     : head(nullptr), size(0) {
-    auto current = list.head;
-    auto length = list.getLength();
-    for (int i = 1; i <= length; i++) {
-        insert(i, current->data);
-        current = current->next;
-    }
+    copy(list);
 }
 
 template <typename T>
@@ -46,30 +63,29 @@ inline LinkedList<T> &LinkedList<T>::operator=(const LinkedList<T> &list) {
     if (this != &list)
         return *this;
     while (!isEmpty())
-        remove(1);
-    for (int i = 1; i <= list.getLength(); i++) {
-        T item;
-        list.getItem(i, item);
-        insert(i, item);
-    }
+        remove(0);
+    copy(list);
     return *this;
 }
 
-template <typename T> inline LinkedList<T>::~LinkedList() {
+template <typename T>
+inline LinkedList<T>::~LinkedList() {
     while (!isEmpty())
-        remove(1);
+        remove(0);
 }
 
-template <typename T> inline bool LinkedList<T>::isEmpty() const {
+template <typename T>
+inline bool LinkedList<T>::isEmpty() const {
     return size == 0;
 }
 
-template <typename T> inline int LinkedList<T>::getLength() const {
+template <typename T>
+inline int LinkedList<T>::getLength() const {
     return size;
 }
 
-template <typename T> inline bool LinkedList<T>::insert(int index, T data) {
-    index = translate(index);
+template <typename T>
+inline bool LinkedList<T>::insert(int index, T data) {
     if (index < 0 || index > size)
         return false;
 
@@ -92,8 +108,8 @@ template <typename T> inline bool LinkedList<T>::insert(int index, T data) {
     return true;
 }
 
-template <typename T> inline bool LinkedList<T>::remove(int index) {
-    index = translate(index);
+template <typename T>
+inline bool LinkedList<T>::remove(int index) {
     if (index < 0 || index >= size)
         return false;
 
@@ -118,7 +134,6 @@ template <typename T> inline bool LinkedList<T>::remove(int index) {
 
 template <typename T>
 inline bool LinkedList<T>::getItem(int index, T &data) const {
-    index = translate(index);
     if (index < 0 || index >= size)
         return false;
 
@@ -142,8 +157,4 @@ inline std::ostream &operator<<(std::ostream &out, const LinkedList<T> &list) {
     }
     out << "], size=" << list.size << ")";
     return out;
-}
-
-template <typename T> int LinkedList<T>::translate(int index) const {
-    return index - 1;
 }

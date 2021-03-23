@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Node.h"
+#include "common/Node.h"
 
-template <typename T> class Queue {
+template <typename T>
+class Queue {
   public:
     Queue();
     Queue(const Queue<T> &queue);
@@ -19,7 +20,8 @@ template <typename T> class Queue {
     Node<T> *end;
 };
 
-template <typename T> inline Queue<T>::Queue() : start(nullptr), end(nullptr) {}
+template <typename T>
+inline Queue<T>::Queue() : start(nullptr), end(nullptr) {}
 
 template <typename T>
 inline Queue<T>::Queue(const Queue<T> &queue)
@@ -54,16 +56,19 @@ inline Queue<T> &Queue<T>::operator=(const Queue<T> &queue) {
     return *this;
 }
 
-template <typename T> inline Queue<T>::~Queue() {
+template <typename T>
+inline Queue<T>::~Queue() {
     while (!isEmpty())
         dequeue();
 }
 
-template <typename T> inline bool Queue<T>::isEmpty() const {
+template <typename T>
+inline bool Queue<T>::isEmpty() const {
     return start == nullptr;
 }
 
-template <typename T> inline bool Queue<T>::enqueue(T data) {
+template <typename T>
+inline bool Queue<T>::enqueue(T data) {
     auto temp = new Node<T>(data);
     if (isEmpty()) {
         start = temp;
@@ -75,7 +80,8 @@ template <typename T> inline bool Queue<T>::enqueue(T data) {
     return true;
 }
 
-template <typename T> inline bool Queue<T>::dequeue() {
+template <typename T>
+inline bool Queue<T>::dequeue() {
     if (isEmpty())
         return false;
     if (start == end)
@@ -86,12 +92,14 @@ template <typename T> inline bool Queue<T>::dequeue() {
     return true;
 }
 
-template <typename T> inline bool Queue<T>::dequeue(T &data) {
+template <typename T>
+inline bool Queue<T>::dequeue(T &data) {
     getFront(data);
     return dequeue();
 }
 
-template <typename T> inline bool Queue<T>::getFront(T &data) const {
+template <typename T>
+inline bool Queue<T>::getFront(T &data) const {
     if (isEmpty())
         return false;
     data = start->data;

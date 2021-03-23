@@ -1,10 +1,12 @@
 #pragma once
 
-#include "DoubleNode.h"
+#include "common/DoubleNode.h"
+
 #include <iostream>
 #include <ostream>
 
-template <typename T> class DoublyLinkedList {
+template <typename T>
+class DoublyLinkedList {
   private:
     DoubleNode<T> *head;
     int size;
@@ -57,16 +59,19 @@ DoublyLinkedList<T>::operator=(const DoublyLinkedList<T> &list) {
     return *this;
 }
 
-template <typename T> inline DoublyLinkedList<T>::~DoublyLinkedList() {
+template <typename T>
+inline DoublyLinkedList<T>::~DoublyLinkedList() {
     while (!isEmpty())
         remove(1);
 }
 
-template <typename T> inline bool DoublyLinkedList<T>::isEmpty() const {
+template <typename T>
+inline bool DoublyLinkedList<T>::isEmpty() const {
     return size == 0;
 }
 
-template <typename T> inline int DoublyLinkedList<T>::getLength() const {
+template <typename T>
+inline int DoublyLinkedList<T>::getLength() const {
     return size;
 }
 
@@ -96,7 +101,8 @@ inline bool DoublyLinkedList<T>::insert(int index, T data) {
     return true;
 }
 
-template <typename T> inline bool DoublyLinkedList<T>::remove(int index) {
+template <typename T>
+inline bool DoublyLinkedList<T>::remove(int index) {
     index = translate(index);
     if (index < 0 || index >= size)
         return false;
@@ -150,6 +156,7 @@ inline std::ostream &operator<<(std::ostream &out,
     return out;
 }
 
-template <typename T> int DoublyLinkedList<T>::translate(int index) const {
+template <typename T>
+int DoublyLinkedList<T>::translate(int index) const {
     return index - 1;
 }

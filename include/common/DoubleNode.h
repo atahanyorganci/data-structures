@@ -1,6 +1,7 @@
 #pragma once
 
-template <typename T> class DoubleNode {
+template <typename T>
+class DoubleNode {
   public:
     DoubleNode();
     DoubleNode(const T &data);

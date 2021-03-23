@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Node.h"
+#include "common/Node.h"
 #include <ostream>
 
-template <typename T> class Stack {
+template <typename T>
+class Stack {
   private:
     Node<T> *top;
 
@@ -22,7 +23,8 @@ template <typename T> class Stack {
     friend std::ostream &operator<<(std::ostream &out, const Stack<U> &list);
 };
 
-template <typename T> inline Stack<T>::Stack() : top(nullptr) {}
+template <typename T>
+inline Stack<T>::Stack() : top(nullptr) {}
 
 template <typename T>
 inline Stack<T>::Stack(const Stack<T> &stack) : top(stack.top) {
@@ -51,23 +53,27 @@ inline Stack<T> &Stack<T>::operator=(const Stack<T> &stack) {
     return *this;
 }
 
-template <typename T> inline Stack<T>::~Stack() {
+template <typename T>
+inline Stack<T>::~Stack() {
     while (!isEmpty())
         pop();
 }
 
-template <typename T> inline bool Stack<T>::isEmpty() const {
+template <typename T>
+inline bool Stack<T>::isEmpty() const {
     return top == nullptr;
 }
 
-template <typename T> inline bool Stack<T>::push(T data) {
+template <typename T>
+inline bool Stack<T>::push(T data) {
     auto temp = new Node<T>(data);
     temp->next = top;
     top = temp;
     return true;
 }
 
-template <typename T> inline bool Stack<T>::pop() {
+template <typename T>
+inline bool Stack<T>::pop() {
     if (isEmpty())
         return false;
     auto temp = top;
@@ -76,7 +82,8 @@ template <typename T> inline bool Stack<T>::pop() {
     return true;
 }
 
-template <typename T> inline bool Stack<T>::pop(T &data) {
+template <typename T>
+inline bool Stack<T>::pop(T &data) {
     if (isEmpty())
         return false;
     auto temp = top;
@@ -86,7 +93,8 @@ template <typename T> inline bool Stack<T>::pop(T &data) {
     return true;
 }
 
-template <typename T> inline bool Stack<T>::getTop(T &data) const {
+template <typename T>
+inline bool Stack<T>::getTop(T &data) const {
     if (top == nullptr)
         return false;
     data = top->data;
