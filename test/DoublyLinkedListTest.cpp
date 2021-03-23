@@ -1,56 +1,55 @@
-// #include "DoublyLinkedList.h"
-// #include "Test.h"
+#include "adt/DoublyLinkedList.h"
 
-// const int SIZE = 40;
+#include <catch2/catch.hpp>
 
-// void test()
-// {
-//     auto l = DoublyLinkedList<int>();
-//     int item;
+const int SIZE = 40;
 
-//     // Empty list edge cases
-//     assertTrue(l.isEmpty(), "List should be empty.");
-//     assertEquals(l.getLength(), 0, "Empty list's item count should be 0.");
-//     assertFalse(l.insert(3, 3), "Empty list's items' index start at 1.");
-//     assertFalse(l.insert(0, 3), "Empty list's items' index start at 1.");
-//     assertFalse(l.getItem(1, item), "Empty list should not have vaild items.");
+TEST_CASE("DoublyLinkedListTest", "[DoublyLinkedList]") {
+    auto l = DoublyLinkedList<int>();
+    int item;
 
-//     // Fill the list
-//     for (int i = 0; i < SIZE / 2; i++)
-//         assertTrue(l.insert(1, i), "List should have space for new items.");
-//     for (int i = 1; i <= SIZE / 2; i++)
-//         assertTrue(l.insert(i, i), "List should have space for new items.");
-//     assertFalse(l.isEmpty(), "List should not be empty");
-//     assertEquals(l.getLength(), SIZE, "List's size should be half of max size.");
+    // Empty list edge cases
+    REQUIRE(l.isEmpty());
+    REQUIRE(l.getLength() == 0);
+    REQUIRE_FALSE(l.insert(3, 3));
+    REQUIRE_FALSE(l.insert(0, 3));
+    REQUIRE_FALSE(l.getItem(1, item));
 
-//     // Insertion edge case
-//     assertFalse(l.insert(SIZE + 2, 2), "List's items should have consequtive indexes.");
+    // Fill the list
+    for (int i = 0; i < SIZE / 2; i++)
+        REQUIRE(l.insert(1, i));
+    for (int i = 1; i <= SIZE / 2; i++)
+        REQUIRE(l.insert(i, i));
+    REQUIRE_FALSE(l.isEmpty());
+    REQUIRE(l.getLength() == SIZE);
 
-//     // Removal quarter of items
-//     auto current = l.getLength();
-//     for (int i = 1; i <= current / 4; i++)
-//         assertTrue(l.remove(i), "List should contain items.");
+    // Insertion edge case
+    REQUIRE_FALSE(l.insert(SIZE + 2, 2));
 
-//     auto l2 = l;
-//     auto l3 = DoublyLinkedList<int>();
-//     l3 = l;
+    // Removal quarter of items
+    auto current = l.getLength();
+    for (int i = 1; i <= current / 4; i++)
+        REQUIRE(l.remove(i));
 
-//     // Remove all items from the list
-//     current = l.getLength();
-//     for (int i = 0; i < current; i++)
-//         assertTrue(l.remove(1), "The list should not be empty.");
-//     assertFalse(l.remove(1), "The list should be empty");
-//     assertTrue(l.isEmpty(), "List should be empty.");
+    auto l2 = l;
+    auto l3 = DoublyLinkedList<int>();
+    l3 = l;
 
-//     // Test newly added members
-//     assertTrue(l.insert(1, 5), "List should have space for the items.");
-//     assertTrue(l.getItem(1, item), "List should have the first item.");
-//     assertEquals(item, 5, "List have retruned wrong item.");
+    // Remove all items from the list
+    current = l.getLength();
+    for (int i = 0; i < current; i++)
+        REQUIRE(l.remove(1));
+    REQUIRE_FALSE(l.remove(1));
+    REQUIRE(l.isEmpty());
 
-//     // Re-fill the list
-//     for (int i = 0; i < SIZE / 2; i++)
-//         assertTrue(l.insert(1, i), "List should have space for new items.");
-//     for (int i = 1; i <= SIZE / 2; i++)
-//         assertTrue(l.insert(i, i), "List should have space for new items.");
-// }
-// RUN_TEST(test)
+    // Test newly added members
+    REQUIRE(l.insert(1, 5));
+    REQUIRE(l.getItem(1, item));
+    REQUIRE(item == 5);
+
+    // Re-fill the list
+    for (int i = 0; i < SIZE / 2; i++)
+        REQUIRE(l.insert(1, i));
+    for (int i = 1; i <= SIZE / 2; i++)
+        REQUIRE(l.insert(i, i));
+}

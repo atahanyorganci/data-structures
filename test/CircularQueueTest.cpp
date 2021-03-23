@@ -1,4 +1,4 @@
-#include "CircularQueue.h"
+#include "adt/CircularQueue.h"
 #include <catch2/catch.hpp>
 
 TEST_CASE("CircularQueue", "[CircularQueue]") {
@@ -6,63 +6,54 @@ TEST_CASE("CircularQueue", "[CircularQueue]") {
     auto cq = CircularQueue<int>(SIZE);
     int data;
 
-    SECTION("empty queue cases") {
-        REQUIRE(cq.isEmpty());
-        REQUIRE_FALSE(cq.getFront(data));
-        REQUIRE_FALSE(cq.dequeue(data));
-        REQUIRE_FALSE(cq.dequeue());
-    }
+    // empty queue cases
+    REQUIRE(cq.isEmpty());
+    REQUIRE_FALSE(cq.getFront(data));
+    REQUIRE_FALSE(cq.dequeue(data));
+    REQUIRE_FALSE(cq.dequeue());
 
-    SECTION("copy constructor, and assignment operator") {
-        auto cq2 = CircularQueue<int>(cq);
-        auto cq3 = CircularQueue<int>();
-        cq2 = cq;
-        cq3 = cq;
-    }
+    // copy constructor, and assignment operator
+    auto cq2 = CircularQueue<int>(cq);
+    auto cq3 = CircularQueue<int>();
+    cq2 = cq;
+    cq3 = cq;
 
-    SECTION("queue data") {
-        UNSCOPED_INFO("Queuing data until queue is full.");
-        for (int i = 0; i < SIZE; i++)
-            REQUIRE(cq.enqueue(i));
-        REQUIRE_FALSE(cq.isEmpty());
-        REQUIRE(cq.isFull());
-    }
+    // queue data
+    for (int i = 0; i < SIZE; i++)
+        REQUIRE(cq.enqueue(i));
+    REQUIRE_FALSE(cq.isEmpty());
+    REQUIRE(cq.isFull());
 
-    SECTION("copy constructor, and assignment operator") {
-        auto cq4 = CircularQueue<int>(cq);
-        auto cq5 = CircularQueue<int>();
-        cq4 = cq;
-        cq5 = cq;
-    }
+    // copy constructor, and assignment operator
+    auto cq4 = CircularQueue<int>(cq);
+    auto cq5 = CircularQueue<int>();
+    cq4 = cq;
+    cq5 = cq;
 
-    SECTION("dequeue values") {
-        UNSCOPED_INFO("Queuing data until queue is empty.");
-        for (int i = 0; i < SIZE; i++) {
-            CAPTURE(i);
-            REQUIRE(cq.dequeue(data));
-            REQUIRE(data == i);
-        }
-        REQUIRE(cq.isEmpty());
-        REQUIRE_FALSE(cq.getFront(data));
-        REQUIRE_FALSE(cq.dequeue(data));
-        REQUIRE_FALSE(cq.dequeue());
-        UNSCOPED_INFO("Queue is empty.");
+    // dequeue values
+    for (int i = 0; i < SIZE; i++) {
+        CAPTURE(i);
+        REQUIRE(cq.dequeue(data));
+        REQUIRE(data == i);
     }
+    REQUIRE(cq.isEmpty());
+    REQUIRE_FALSE(cq.getFront(data));
+    REQUIRE_FALSE(cq.dequeue(data));
+    REQUIRE_FALSE(cq.dequeue());
+    UNSCOPED_INFO("Queue is empty.");
 
-    SECTION("copy constructor, and assignment operator") {
-        auto cq6 = CircularQueue<int>(cq);
-        auto cq7 = CircularQueue<int>();
-        cq6 = cq;
-        cq7 = cq;
-    }
+    // copy constructor, and assignment operator
+    auto cq6 = CircularQueue<int>(cq);
+    auto cq7 = CircularQueue<int>();
+    cq6 = cq;
+    cq7 = cq;
 
-    SECTION("mixed dequeue and queue") {
-        for (int i = 0; i < SIZE; i++)
-            REQUIRE(cq.enqueue(i));
-        REQUIRE(cq.isFull());
-        for (int i = 0; i < SIZE; i++)
-            REQUIRE(cq.dequeue());
-        for (int i = 0; i < SIZE; i++)
-            REQUIRE(cq.enqueue(i));
-    }
+    // mixed dequeue and queue
+    for (int i = 0; i < SIZE; i++)
+        REQUIRE(cq.enqueue(i));
+    REQUIRE(cq.isFull());
+    for (int i = 0; i < SIZE; i++)
+        REQUIRE(cq.dequeue());
+    for (int i = 0; i < SIZE; i++)
+        REQUIRE(cq.enqueue(i));
 }
