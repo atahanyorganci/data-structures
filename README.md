@@ -1,3 +1,3 @@
-# C++ Project Template
+# Abstract Data Types and Alogrithms in C++
 
-C++ Project Template using GNU Make
+Abstract data types (i.e. List, Queue, LinkedList etc.), and algorithms (i.e. quick sort, radix sort, etc.) implmented in C++.
