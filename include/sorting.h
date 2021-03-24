@@ -92,7 +92,7 @@ void inner_merge_sort(T *arr, const size_t size, T *temp) {
         return;
 
     const size_t length = size;
-    const size_t split = floor(static_cast<float>(size) / 2);
+    const size_t split = size / 2;
     inner_merge_sort(arr, split, temp);
     inner_merge_sort(&arr[split], length - split, temp);
     merge(arr, size, split, temp);
