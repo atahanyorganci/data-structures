@@ -41,9 +41,9 @@ inline HashTable<T, Traits>::HashTable() {
 
 template <typename T, typename Traits>
 inline HashTable<T, Traits>::HashTable(const size_t bucket_count) {
-    buckets = new HashNode<T>[bucket_count];
-    bucket_count = bucket_count;
-    item_count = 0;
+    this->buckets = new HashNode<T>[bucket_count];
+    this->bucket_count = bucket_count;
+    this->item_count = 0;
 }
 
 template <typename T, typename Traits>

@@ -51,9 +51,15 @@ test: $(T_EXE)
 
 texe: $(T_EXE)
 
-$(T_EXE): $(T_OBJ) $(DBG_LIB)
+$(DIST)/$(DEBUG)/$(OBJ)/catch.o: $(VENDOR)/catch2/catch.cpp
+	@echo "CXX: Complining $<"
+	@mkdir -p $(@D)
+	@$(CXX) -c -I$(VENDOR)/catch $< -o $@
+
+
+$(T_EXE): $(T_OBJ) $(DBG_LIB) $(DIST)/$(DEBUG)/$(OBJ)/catch.o
 	@echo "LINK: Creating release executable"
-	@$(CXX) $(T_OBJ) $(DBG_LIB) -o $(T_EXE)
+	@$(CXX) $(T_OBJ) $(DIST)/$(DEBUG)/$(OBJ)/catch.o $(DBG_LIB) -o $(T_EXE)
 
 .SECONDARY:
 $(DIST)/$(TEST)/$(OBJ)/%.o: test/%.cpp $(DBG_LIB)
