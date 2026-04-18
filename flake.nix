@@ -1,26 +1,32 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = { nixpkgs, flake-utils, ... }@inputs:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs {
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;}
+    {
+      systems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "x86_64-linux"
+      ];
+      imports = [
+        inputs.treefmt-nix.flakeModule
+        ./nix/shell.nix
+        ./nix/treefmt.nix
+      ];
+      perSystem = {system, ...}: {
+        _module.args.pkgs = import inputs.nixpkgs {
           inherit system;
           config = {
             allowUnfree = true;
             allowBroken = true;
           };
         };
-      in
-      {
-        formatter = pkgs.nixpkgs-fmt;
-        devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            nixpkgs-fmt
-          ];
-        };
-      }
-    );
+      };
+    };
 }
