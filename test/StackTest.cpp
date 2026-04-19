@@ -1,6 +1,6 @@
 #include "adt/Stack.h"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 TEST_CASE("StackTest", "[Stack]") {
     const int SIZE = 10;

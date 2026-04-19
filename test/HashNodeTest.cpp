@@ -1,5 +1,5 @@
 #include "common/HashNode.h"
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 static int deleted = 0;
 class TestObj {
