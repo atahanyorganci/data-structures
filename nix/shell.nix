@@ -4,7 +4,8 @@
     ...
   }: {
     devShells.default = pkgs.mkShell {
-      buildInputs = [
+      buildInputs = with pkgs; [
+        xmake
       ];
     };
   };
